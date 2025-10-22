@@ -3,7 +3,7 @@
 
 # Log file
 *.log
-
+.DS_Storegit
 # BlueJ files
 *.ctxt
 
