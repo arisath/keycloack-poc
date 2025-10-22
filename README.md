@@ -1,6 +1,6 @@
 # Keycloak POC
 
-![Keycloak Logo](https://github.com/arisath/keycloack-poc/raw/main/keycloak-logo.png)
+![Keycloak Logo](https://github.com/arisath/keycloack-poc/raw/main/flow.png)
 
 This project is a **proof of concept (POC)** for running Keycloak in development mode. It demonstrates how to quickly start a Keycloak server with a bootstrap admin user for testing and experimentation purposes.
 
