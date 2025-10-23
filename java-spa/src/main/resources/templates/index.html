@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Java SPA</title>
+</head>
+<body>
+<h2 th:text="${name != null ? 'Hello, ' + name : 'Hello, Guest!'}"></h2>
+
+<div th:if="${name == null}">
+    <a href="/oauth2/authorization/keycloak">Login with Keycloak</a>
+</div>
+
+<div th:if="${name != null}">
+    <p th:text="'Email: ' + ${email}"></p>
+    <a href="/logout">Logout</a>
+</div>
+</body>
+</html>

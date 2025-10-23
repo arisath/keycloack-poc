@@ -9,6 +9,10 @@ RUN /opt/keycloak/bin/kc.sh build
 FROM quay.io/keycloak/keycloak:latest
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY run.sh /opt/keycloak/run.sh
+
+# Copy realm JSON into the container
+COPY realm-export.json /opt/keycloak/data/import/realm-export.json
+
 USER root
 
 RUN chmod 775 /opt/keycloak/run.sh
