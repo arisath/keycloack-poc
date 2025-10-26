@@ -13,6 +13,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/secret").authenticated()  // protected page
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> {
