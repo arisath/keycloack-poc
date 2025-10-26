@@ -14,6 +14,8 @@ public class SecretController {
         if (oidcUser != null) {
             model.addAttribute("name", oidcUser.getFullName());
             model.addAttribute("email", oidcUser.getEmail());
+            model.addAttribute("balance", (int)(Math.random() * 9000 + 1000)); // 1000-9999 GBP
+
         }
         return "secret"; // Thymeleaf template: secret.html
     }

@@ -16,10 +16,9 @@ public class SecurityConfig {
                         .requestMatchers("/secret").authenticated()  // protected page
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2 -> {
-                    // Optional: customize login
-                    // e.g., oauth2.loginPage("/custom-login");
-                })
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/secret", true)
+                )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/").permitAll()
                 );
