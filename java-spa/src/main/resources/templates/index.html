@@ -5,22 +5,27 @@
     <title>Java SPA - JWT Viewer</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4 text-gray-200">
 
-<div class="bg-white shadow-md rounded-lg p-6 w-full max-w-2xl">
-    <h2 class="text-2xl font-semibold mb-4" th:text="${name != null ? 'Hello, ' + name + '!' : 'Hello, Guest!'}"></h2>
+<div class="bg-gray-800 shadow-2xl rounded-2xl p-10 w-full max-w-3xl text-center">
 
-    <!-- Login Button -->
-    <div th:if="${name == null}" class="mb-4">
+    <!-- Greeting -->
+    <h2 class="text-3xl font-bold mb-6 text-indigo-400" th:text="${name != null ? 'Hello, ' + name + '!' : 'Hello, Guest!'}"></h2>
+
+    <!-- Pre-login / Keycloak Info -->
+    <div th:if="${name == null}" class="mb-6">
+        <p class="text-gray-300 mb-4">
+            This application is securely protected by <span class="font-semibold text-indigo-400">Keycloak</span>.
+        </p>
         <a href="/oauth2/authorization/keycloak"
-           class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+           class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-xl text-lg font-medium hover:bg-indigo-700 transition">
             Login with Keycloak
         </a>
     </div>
 
-    <!-- User Info & Logout -->
-    <div th:if="${name != null}" class="mb-4">
-        <p class="text-gray-700 mb-2" th:text="'Email: ' + ${email}"></p>
+    <!-- Post-login Info & Logout -->
+    <div th:if="${name != null}" class="mb-6 text-left">
+        <p class="text-gray-300 mb-2" th:text="'Email: ' + ${email}"></p>
         <a href="/logout"
            class="inline-block bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition">
             Logout
@@ -28,20 +33,20 @@
     </div>
 
     <!-- JWT Claims -->
-    <div class="mt-6">
-        <h3 class="text-xl font-semibold mb-2">JWT Claims</h3>
+    <div class="mt-8 text-left">
+        <h3 class="text-xl font-semibold mb-4 text-indigo-300">JWT Claims</h3>
         <div th:if="${jwtClaims != null}" class="overflow-x-auto">
-            <table class="w-full table-auto border border-gray-300 rounded">
+            <table class="w-full table-auto border border-gray-700 rounded">
                 <thead>
-                <tr class="bg-gray-200">
-                    <th class="px-4 py-2 text-left">Key</th>
-                    <th class="px-4 py-2 text-left">Value</th>
+                <tr class="bg-gray-700">
+                    <th class="px-4 py-2 text-left text-gray-200">Key</th>
+                    <th class="px-4 py-2 text-left text-gray-200">Value</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="entry : ${jwtClaims.entrySet()}" class="border-t border-gray-300">
-                    <td class="px-4 py-2" th:text="${entry.key}"></td>
-                    <td class="px-4 py-2" th:text="${entry.value}"></td>
+                <tr th:each="entry : ${jwtClaims.entrySet()}" class="border-t border-gray-700">
+                    <td class="px-4 py-2 text-gray-200" th:text="${entry.key}"></td>
+                    <td class="px-4 py-2 text-gray-200" th:text="${entry.value}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -50,6 +55,12 @@
             <p class="text-gray-500 mt-2">No JWT found. You are not logged in.</p>
         </div>
     </div>
+
+    <!-- Footer -->
+    <div class="mt-8 text-gray-500 text-sm">
+        &copy; 2025 Your Company
+    </div>
+
 </div>
 
 </body>
