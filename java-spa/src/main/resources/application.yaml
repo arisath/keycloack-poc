@@ -10,7 +10,7 @@ spring:
             client-id: java-spa
             client-name: Java SPA
             provider: keycloak
-            scope: openid,profile,email
+            scope: openid,profile,email,entitlements
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
         provider:
