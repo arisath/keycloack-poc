@@ -15,6 +15,8 @@ public class WebController {
             // User is logged in via Keycloak
             model.addAttribute("name", user.getFullName());
             model.addAttribute("email", user.getEmail());
+            model.addAttribute("jwtClaims", user.getClaims());
+
         }
         return "index"; // Thymeleaf template src/main/resources/templates/index.html
     }

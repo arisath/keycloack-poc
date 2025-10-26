@@ -2,18 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Java SPA</title>
+    <title>Java SPA - JWT Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h2 th:text="${name != null ? 'Hello, ' + name : 'Hello, Guest!'}"></h2>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
 
-<div th:if="${name == null}">
-    <a href="/oauth2/authorization/keycloak">Login with Keycloak</a>
+<div class="bg-white shadow-md rounded-lg p-6 w-full max-w-2xl">
+    <h2 class="text-2xl font-semibold mb-4" th:text="${name != null ? 'Hello, ' + name + '!' : 'Hello, Guest!'}"></h2>
+
+    <!-- Login Button -->
+    <div th:if="${name == null}" class="mb-4">
+        <a href="/oauth2/authorization/keycloak"
+           class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+            Login with Keycloak
+        </a>
+    </div>
+
+    <!-- User Info & Logout -->
+    <div th:if="${name != null}" class="mb-4">
+        <p class="text-gray-700 mb-2" th:text="'Email: ' + ${email}"></p>
+        <a href="/logout"
+           class="inline-block bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition">
+            Logout
+        </a>
+    </div>
+
+    <!-- JWT Claims -->
+    <div class="mt-6">
+        <h3 class="text-xl font-semibold mb-2">JWT Claims</h3>
+        <div th:if="${jwtClaims != null}" class="overflow-x-auto">
+            <table class="w-full table-auto border border-gray-300 rounded">
+                <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left">Key</th>
+                    <th class="px-4 py-2 text-left">Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${jwtClaims.entrySet()}" class="border-t border-gray-300">
+                    <td class="px-4 py-2" th:text="${entry.key}"></td>
+                    <td class="px-4 py-2" th:text="${entry.value}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${jwtClaims == null}">
+            <p class="text-gray-500 mt-2">No JWT found. You are not logged in.</p>
+        </div>
+    </div>
 </div>
 
-<div th:if="${name != null}">
-    <p th:text="'Email: ' + ${email}"></p>
-    <a href="/logout">Logout</a>
-</div>
 </body>
 </html>
