@@ -13,6 +13,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/debug-tokens").permitAll()
+
                         .requestMatchers("/secret").authenticated()  // protected page
                         .anyRequest().authenticated()
                 )
