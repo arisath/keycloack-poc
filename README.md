@@ -1,6 +1,6 @@
 # Keycloak POC
 
-![Keycloak Logo](https://github.com/arisath/keycloack-poc/raw/main/flow.png)
+![Keycloak Logo](img/flow.png)
 A minimal **Java Spring Boot SPA** integrated with **Keycloak** using **OpenID Connect (OIDC)** for authentication.
 
 This project demonstrates how to:
@@ -15,6 +15,9 @@ This project demonstrates how to:
 - **Keycloak**: Acts as the Identity Provider (IdP) for authenticating users via OIDC.
 - **Spring Boot Application**: Serves as the client that handles user authentication and authorization.
 - **JWT (`APP_TOKEN`)**: A custom JWT issued by the Spring Boot application upon successful login, used for stateless session management.
+
+![Keycloak Logo](img/arch.png)
+
 
 ## Authentication Flow
 
