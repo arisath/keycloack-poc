@@ -26,7 +26,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(successHandler)
-                        .defaultSuccessUrl("/secret", true)
+                      //  .defaultSuccessUrl("/secret", true)
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/").permitAll()
