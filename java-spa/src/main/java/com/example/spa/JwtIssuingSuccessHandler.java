@@ -34,8 +34,8 @@ public class JwtIssuingSuccessHandler implements AuthenticationSuccessHandler
         String appToken = tokenGenerator.generate(oidcUser);
 
         Cookie cookie = new Cookie("APP_TOKEN", appToken);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+        cookie.setHttpOnly(false);
+        cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge(300);
         response.addCookie(cookie);

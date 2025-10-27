@@ -8,6 +8,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final JwtIssuingSuccessHandler successHandler;
+
+    public SecurityConfig(JwtIssuingSuccessHandler successHandler) {
+        this.successHandler = successHandler; // Spring will automatically inject
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -19,6 +25,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
+                        .successHandler(successHandler)
                         .defaultSuccessUrl("/secret", true)
                 )
                 .logout(logout -> logout
