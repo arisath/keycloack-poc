@@ -40,6 +40,12 @@ public class JwtIssuingSuccessHandler implements AuthenticationSuccessHandler
         cookie.setMaxAge(300);
         response.addCookie(cookie);
 
+        // Delete JSESSIONID cookie
+        Cookie sessionCookie = new Cookie("JSESSIONID", "");
+        sessionCookie.setMaxAge(0);
+        sessionCookie.setPath("/");
+        response.addCookie(sessionCookie);
+
         response.sendRedirect("/");
     }
 }

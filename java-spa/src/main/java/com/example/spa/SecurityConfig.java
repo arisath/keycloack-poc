@@ -1,4 +1,7 @@
 package com.example.spa;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,22 +18,30 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   AppTokenGenerator tokenGenerator) throws Exception {
         http
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/debug-tokens").permitAll()
-
-                        .requestMatchers("/secret").authenticated()  // protected page
+                        .requestMatchers("/", "/public/**").permitAll()
+                        .requestMatchers("/secret").authenticated()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(successHandler)
-                      //  .defaultSuccessUrl("/secret", true)
+                .oauth2Login(oauth -> oauth
+                        .successHandler(successHandler) // issues APP_TOKEN cookie
                 )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/").permitAll()
-                );
+
+                // Instead of default redirect, send 401 if not authenticated
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        })
+                )
+
+                .addFilterBefore(new AppJwtAuthenticationFilter(tokenGenerator.getAlgorithm()),
+                        UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
