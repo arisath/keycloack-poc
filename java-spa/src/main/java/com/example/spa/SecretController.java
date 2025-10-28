@@ -1,7 +1,6 @@
 package com.example.spa;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SecretController {
 
     @GetMapping("/secret")
-    public String secretPage(@AuthenticationPrincipal OidcUser oidcUser, Model model) {
-        if (oidcUser != null) {
-            model.addAttribute("name", oidcUser.getFullName());
-            model.addAttribute("email", oidcUser.getEmail());
-            model.addAttribute("balance", (int)(Math.random() * 9000 + 1000)); // 1000-9999 GBP
-
+    public String secretPage(Authentication auth, Model model) {
+        if (auth != null && auth.isAuthenticated()) {
+            String username = (String) auth.getPrincipal(); // because you stored the username string
+            model.addAttribute("name", username);
+            model.addAttribute("email", username + "@example.com"); // or fetch from JWT if needed
+            model.addAttribute("balance", (int)(Math.random() * 9000 + 1000));
         }
         return "secret"; // Thymeleaf template: secret.html
     }
