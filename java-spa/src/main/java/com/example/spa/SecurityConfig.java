@@ -25,7 +25,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/public/**").permitAll()
+                        .requestMatchers("/", "/unauthorized","/public/**").permitAll()
                         .requestMatchers("/secret").authenticated()
                         .anyRequest().authenticated()
                 )
@@ -36,7 +36,9 @@ public class SecurityConfig {
                 // Instead of default redirect, send 401 if not authenticated
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.sendRedirect("/unauthorized");
+                          //  response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
                         })
                 )
 
