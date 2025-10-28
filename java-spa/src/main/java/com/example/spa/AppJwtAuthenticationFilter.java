@@ -3,6 +3,7 @@ package com.example.spa;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.spa.model.AppUserPrincipal;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,13 +44,22 @@ public class AppJwtAuthenticationFilter extends OncePerRequestFilter {
                                     .build()
                                     .verify(cookie.getValue());
 
+                            // Extract claims
                             String username = decoded.getSubject();
-                            List<SimpleGrantedAuthority> authorities = Arrays.stream(decoded.getClaim("roles").asArray(String.class))
+                            String name = decoded.getClaim("name").asString();
+                            String email = decoded.getClaim("email").asString();
+                            List<String> roles = decoded.getClaim("roles").asList(String.class);
+
+                            // Create custom principal
+                            AppUserPrincipal principal = new AppUserPrincipal(username, name, email, roles);
+
+
+                            List<SimpleGrantedAuthority> authorities = roles.stream()
                                     .map(SimpleGrantedAuthority::new)
                                     .collect(Collectors.toList());
 
                             UsernamePasswordAuthenticationToken auth =
-                                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+                                    new UsernamePasswordAuthenticationToken(principal, null, authorities);
 
                             SecurityContextHolder.getContext().setAuthentication(auth);
 

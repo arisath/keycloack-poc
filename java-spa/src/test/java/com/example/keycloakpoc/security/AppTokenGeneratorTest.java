@@ -35,7 +35,8 @@ class AppTokenGeneratorTest {
                 Instant.now().plusSeconds(600),
                 Map.of(
                         "sub", "12345",
-                        "email", "user@example.com"
+                        "email", "user@example.com",
+                        "name", "John Doe"  // add this
                 )
         );
         OidcUser oidcUser = new DefaultOidcUser(

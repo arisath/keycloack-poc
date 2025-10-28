@@ -18,6 +18,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 public class AppTokenGenerator {
@@ -41,10 +42,15 @@ public class AppTokenGenerator {
         Instant now = Instant.now();
         Instant exp = now.plusSeconds(300);
 
+        Map<String, Object> claims = oidcUser.getClaims();
+
+
         return JWT.create()
                 .withIssuer("https://yourapp.local")
                 .withSubject(oidcUser.getSubject())
                 .withClaim("email", oidcUser.getEmail())
+                .withClaim("idToken", oidcUser.getIdToken().getTokenValue()) // embedded tokens for debugging
+                .withClaim("name",  claims.get("name").toString())
                 .withArrayClaim("roles",
                         oidcUser.getAuthorities().stream()
                                 .map(Object::toString)
