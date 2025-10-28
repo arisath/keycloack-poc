@@ -46,7 +46,7 @@ public class JwtIssuingSuccessHandler implements AuthenticationSuccessHandler
         sessionCookie.setPath("/");
         response.addCookie(sessionCookie);
 
-        response.sendRedirect("/");
+        response.sendRedirect("/secret");
     }
 }
 
