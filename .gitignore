@@ -23,3 +23,4 @@ target/
 hs_err_pid*
 replay_pid*
 google-credentials
+secret.sh
