@@ -2,7 +2,6 @@
 
 set -e
 cd /opt/keycloak/
-ls
 
 # Source the secrets file if it exists
 if [ -f "./secrets.sh" ]; then
@@ -31,4 +30,21 @@ fi
   --bootstrap-admin-username=admin \
   --bootstrap-admin-password=admin \
   --import-realm \
-  --features=passkeys,passkeys-conditional-ui-authenticator
+  --features=passkeys,passkeys-conditional-ui-authenticator &
+
+# Give Keycloak some time to start
+echo "Waiting for Keycloak to boot..."
+sleep 60  # adjust as needed
+
+# Now you can safely run admin commands
+ /opt/keycloak/bin/kcadm.sh config credentials \
+  --server http://localhost:8080 \
+  --realm master \
+  --user admin \
+  --password admin
+
+echo "Authentication as admin complete..."
+
+
+# Wait forever to keep container alive
+wait
